@@ -1,0 +1,80 @@
+    create table if not exists location
+    (
+    	id serial not null
+    		constraint location_pkey
+    			primary key,
+    	name text not null
+    		constraint location_name_key
+    			unique
+    );
+
+    create table if not exists problem
+    (
+    	id serial not null
+    		constraint problem_pkey
+    			primary key,
+    	id_from integer
+    		constraint id_from
+    			references location,
+    	id_to integer
+    		constraint id_to
+    			references location,
+    	constraint problem_id_from_id_to_key
+    		unique (id_from, id_to)
+    );
+
+    create table if not exists route
+    (
+    	id serial not null
+    		constraint route_pkey
+    			primary key,
+    	id_from integer
+    		constraint id_from
+    			references location,
+    	id_to integer
+    		constraint id_to
+    			references location,
+    	cost integer
+    );
+
+    create table if not exists solution
+    (
+    	problem_id integer not null
+    		constraint solution_pkey
+    			primary key
+    		constraint problem_id
+    			references problem,
+    	cost integer
+    );
+
+INSERT INTO public.location (id, name) VALUES (1, 'Kharkiv');
+INSERT INTO public.location (id, name) VALUES (2, 'Kiev');
+INSERT INTO public.location (id, name) VALUES (3, 'Poltava');
+INSERT INTO public.location (id, name) VALUES (4, 'Dnepr');
+INSERT INTO public.location (id, name) VALUES (5, 'Shitomyr');
+INSERT INTO public.location (id, name) VALUES (6, 'Sumy');
+INSERT INTO public.location (id, name) VALUES (7, 'Kremenchuk');
+INSERT INTO public.location (id, name) VALUES (8, 'Lviv');
+
+INSERT INTO public.problem (id, id_from, id_to) VALUES (1, 1, 7);
+INSERT INTO public.problem (id, id_from, id_to) VALUES (2, 3, 6);
+INSERT INTO public.problem (id, id_from, id_to) VALUES (3, 7, 8);
+INSERT INTO public.problem (id, id_from, id_to) VALUES (4, 4, 2);
+INSERT INTO public.problem (id, id_from, id_to) VALUES (5, 2, 3);
+
+INSERT INTO public.route (id, id_from, id_to, cost) VALUES (1, 1, 6, 5);
+INSERT INTO public.route (id, id_from, id_to, cost) VALUES (2, 1, 3, 5);
+INSERT INTO public.route (id, id_from, id_to, cost) VALUES (3, 2, 7, 7);
+INSERT INTO public.route (id, id_from, id_to, cost) VALUES (4, 2, 5, 6);
+INSERT INTO public.route (id, id_from, id_to, cost) VALUES (5, 2, 3, 14);
+INSERT INTO public.route (id, id_from, id_to, cost) VALUES (6, 3, 1, 5);
+INSERT INTO public.route (id, id_from, id_to, cost) VALUES (7, 3, 2, 14);
+INSERT INTO public.route (id, id_from, id_to, cost) VALUES (8, 3, 4, 8);
+INSERT INTO public.route (id, id_from, id_to, cost) VALUES (9, 3, 7, 10);
+INSERT INTO public.route (id, id_from, id_to, cost) VALUES (10, 4, 3, 8);
+INSERT INTO public.route (id, id_from, id_to, cost) VALUES (11, 5, 2, 6);
+INSERT INTO public.route (id, id_from, id_to, cost) VALUES (12, 5, 8, 16);
+INSERT INTO public.route (id, id_from, id_to, cost) VALUES (13, 6, 1, 5);
+INSERT INTO public.route (id, id_from, id_to, cost) VALUES (14, 7, 2, 7);
+INSERT INTO public.route (id, id_from, id_to, cost) VALUES (15, 7, 3, 10);
+INSERT INTO public.route (id, id_from, id_to, cost) VALUES (16, 8, 5, 16);
